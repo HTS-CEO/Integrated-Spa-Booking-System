@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Time Slot</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .header {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #ecf0f1;
+            z-index: 1;
+            transform: translateY(-50%);
+        }
+        .progress-step {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #ecf0f1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        .progress-step.completed {
+            background: #3498db;
+            color: white;
+        }
+        .progress-step.active {
+            background: #3498db;
+            color: white;
+            border: 2px solid #2980b9;
+        }
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        #booking-summary {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .date-selector {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            background: #f9f9f9;
+            padding: 10px 15px;
+            border-radius: 10px;
+        }
+        .date-nav {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #3498db;
+            padding: 5px 10px;
+        }
+        .current-date {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        .time-slots h3 {
+            color: #7f8c8d;
+            font-size: 16px;
+            margin: 15px 0 10px;
+        }
+        .slot-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .time-slot {
+            padding: 10px;
+            text-align: center;
+            border-radius: 8px;
+            background: #f9f9f9;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .time-slot.available {
+            background: #e3f2fd;
+            color: #3498db;
+        }
+        .time-slot.available:hover {
+            background: #bbdefb;
+        }
+        .time-slot.booked {
+            background: #efefef;
+            color: #bdc3c7;
+            cursor: not-allowed;
+        }
+        .time-slot.selected {
+            background: #3498db;
+            color: white;
+            border-color: #2980b9;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+        .btn-primary, .btn-secondary {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+        .btn-secondary {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+        }
+        .btn-primary:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+        .btn-primary:hover:not(:disabled) {
+            background-color: #2980b9;
+        }
+        .btn-secondary:hover {
+            background-color: #bdc3c7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="progress-bar">
+                <div class="progress-step completed" data-step="1"></div>
+                <div class="progress-step completed" data-step="2"></div>
+                <div class="progress-step active" data-step="3"></div>
+                <div class="progress-step" data-step="4"></div>
+            </div>
+            <h2>Select Time Slot</h2>
+            <p id="booking-summary">Swedish Massage with Maria • 60 min</p>
+        </div>
+        
+        <div class="date-selector">
+            <button class="date-nav" onclick="prevDay()">←</button>
+            <div class="current-date">Today, Jun 15</div>
+            <button class="date-nav" onclick="nextDay()">→</button>
+        </div>
+        
+        <div class="time-slots">
+            <h3>Morning</h3>
+            <div class="slot-grid">
+                <div class="time-slot available" onclick="selectTimeSlot('9:00 AM')">9:00 AM</div>
+                <div class="time-slot available" onclick="selectTimeSlot('10:00 AM')">10:00 AM</div>
+                <div class="time-slot booked">11:00 AM</div>
+            </div>
+            
+            <h3>Afternoon</h3>
+            <div class="slot-grid">
+                <div class="time-slot available" onclick="selectTimeSlot('1:00 PM')">1:00 PM</div>
+                <div class="time-slot available" onclick="selectTimeSlot('2:00 PM')">2:00 PM</div>
+                <div class="time-slot available" onclick="selectTimeSlot('3:00 PM')">3:00 PM</div>
+            </div>
+            
+            <h3>Evening</h3>
+            <div class="slot-grid">
+                <div class="time-slot available" onclick="selectTimeSlot('5:00 PM')">5:00 PM</div>
+                <div class="time-slot booked">6:00 PM</div>
+                <div class="time-slot available" onclick="selectTimeSlot('7:00 PM')">7:00 PM</div>
+            </div>
+        </div>
+        
+        <div class="nav-buttons">
+            <button class="btn-secondary" onclick="location.href='therapists.html'">Back</button>
+            <button class="btn-primary" id="nextBtn" disabled onclick="location.href='review.html'">Next</button>
+        </div>
+    </div>
+    <script>
+        let selectedTimeSlot = null;
+        let currentDate = new Date();
+        
+        function updateDateDisplay() {
+            const options = { weekday: 'long', month: 'short', day: 'numeric' };
+            document.querySelector('.current-date').textContent = 
+                currentDate.toLocaleDateString('en-US', options);
+        }
+        
+        function prevDay() {
+            currentDate.setDate(currentDate.getDate() - 1);
+            updateDateDisplay();
+            // In a real app, you'd fetch available slots for the new date
+        }
+        
+        function nextDay() {
+            currentDate.setDate(currentDate.getDate() + 1);
+            updateDateDisplay();
+            // In a real app, you'd fetch available slots for the new date
+        }
+        
+        function selectTimeSlot(time) {
+            selectedTimeSlot = time;
+            
+            // Update UI
+            const slots = document.querySelectorAll('.time-slot.available');
+            slots.forEach(slot => {
+                slot.classList.remove('selected');
+                if (slot.textContent === time) {
+                    slot.classList.add('selected');
+                }
+            });
+            
+            // Enable next button
+            document.getElementById('nextBtn').disabled = false;
+            
+            // Store in session
+            sessionStorage.setItem('selectedTimeSlot', selectedTimeSlot);
+        }
+        
+        // Check if coming back from next page
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDateDisplay();
+            
+            const storedTimeSlot = sessionStorage.getItem('selectedTimeSlot');
+            if (storedTimeSlot) {
+                selectedTimeSlot = storedTimeSlot;
+                const slots = document.querySelectorAll('.time-slot.available');
+                slots.forEach(slot => {
+                    if (slot.textContent === selectedTimeSlot) {
+                        slot.classList.add('selected');
+                        document.getElementById('nextBtn').disabled = false;
+                    }
+                });
+            }
+            
+            // Update booking summary
+            const service = JSON.parse(sessionStorage.getItem('selectedService'));
+            const therapist = JSON.parse(sessionStorage.getItem('selectedTherapist'));
+            if (service && therapist) {
+                document.getElementById('booking-summary').textContent = 
+                    `${service.name} with ${therapist.name} • ${service.duration} min`;
+            }
+        });
+    </script>
+</body>
+</html>

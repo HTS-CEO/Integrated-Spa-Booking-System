@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .admin-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .tab.active {
+            border-bottom-color: #3498db;
+            color: #3498db;
+            font-weight: bold;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .services-list, .therapists-list {
+            margin-top: 20px;
+        }
+        .service-item, .therapist-item {
+            background: #f9f9f9;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .item-actions button {
+            margin-left: 10px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .edit-btn {
+            background: #ffc107;
+            color: #333;
+        }
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Panel</h1>
+        
+        <div class="admin-tabs">
+            <div class="tab active" onclick="openTab('services')">Services</div>
+            <div class="tab" onclick="openTab('therapists')">Therapists</div>
+            <div class="tab" onclick="openTab('settings')">Settings</div>
+        </div>
+        
+        <div id="services" class="tab-content active">
+            <h2>Manage Services</h2>
+            <div class="form-group">
+                <label for="service-name">Service Name</label>
+                <input type="text" id="service-name" placeholder="e.g. Swedish Massage">
+            </div>
+            <div class="form-group">
+                <label for="service-duration">Duration (minutes)</label>
+                <input type="number" id="service-duration" placeholder="e.g. 60">
+            </div>
+            <div class="form-group">
+                <label for="service-price">Price ($)</label>
+                <input type="number" id="service-price" placeholder="e.g. 80">
+            </div>
+            <button class="btn-primary" onclick="addService()">Add Service</button>
+            
+            <div class="services-list">
+                <div class="service-item">
+                    <div>
+                        <h3>Swedish Massage</h3>
+                        <p>60 min • $80</p>
+                    </div>
+                    <div class="item-actions">
+                        <button class="edit-btn">Edit</button>
+                        <button class="delete-btn">Delete</button>
+                    </div>
+                </div>
+                <div class="service-item">
+                    <div>
+                        <h3>Deep Tissue</h3>
+                        <p>60 min • $90</p>
+                    </div>
+                    <div class="item-actions">
+                        <button class="edit-btn">Edit</button>
+                        <button class="delete-btn">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="therapists" class="tab-content">
+            <h2>Manage Therapists</h2>
+            <div class="form-group">
+                <label for="therapist-name">Name</label>
+                <input type="text" id="therapist-name" placeholder="e.g. Maria">
+            </div>
+            <div class="form-group">
+                <label for="therapist-specialty">Specialty</label>
+                <input type="text" id="therapist-specialty" placeholder="e.g. Swedish techniques">
+            </div>
+            <div class="form-group">
+                <label for="therapist-photo">Photo URL</label>
+                <input type="text" id="therapist-photo" placeholder="https://example.com/photo.jpg">
+            </div>
+            <button class="btn-primary" onclick="addTherapist()">Add Therapist</button>
+            
+            <div class="therapists-list">
+                <div class="therapist-item">
+                    <div>
+                        <h3>Maria</h3>
+                        <p>Expert in Swedish techniques</p>
+                    </div>
+                    <div class="item-actions">
+                        <button class="edit-btn">Edit</button>
+                        <button class="delete-btn">Delete</button>
+                    </div>
+                </div>
+                <div class="therapist-item">
+                    <div>
+                        <h3>David</h3>
+                        <p>Deep tissue specialist</p>
+                    </div>
+                    <div class="item-actions">
+                        <button class="edit-btn">Edit</button>
+                        <button class="delete-btn">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="settings" class="tab-content">
+            <h2>Spa Settings</h2>
+            <div class="form-group">
+                <label for="spa-name">Spa Name</label>
+                <input type="text" id="spa-name" placeholder="Serene Spa">
+            </div>
+            <div class="form-group">
+                <label for="spa-address">Address</label>
+                <input type="text" id="spa-address" placeholder="123 Serene St, Spa City">
+            </div>
+            <div class="form-group">
+                <label for="spa-whatsapp">WhatsApp Number</label>
+                <input type="text" id="spa-whatsapp" placeholder="1234567890">
+            </div>
+            <button class="btn-primary" onclick="saveSettings()">Save Settings</button>
+        </div>
+    </div>
+    <script>
+        function openTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.getElementsByClassName('tab-content');
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove('active');
+            }
+            
+            // Remove active class from all tabs
+            const tabs = document.getElementsByClassName('tab');
+            for (let i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+            }
+            
+            // Show the current tab and mark button as active
+            document.getElementById(tabName).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+        
+        function addService() {
+            const name = document.getElementById('service-name').value;
+            const duration = document.getElementById('service-duration').value;
+            const price = document.getElementById('service-price').value;
+            
+            if (!name || !duration || !price) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            alert(`Service added: ${name} (${duration} min) for $${price}`);
+            // In a real app, you would add this to your database
+        }
+        
+        function addTherapist() {
+            const name = document.getElementById('therapist-name').value;
+            const specialty = document.getElementById('therapist-specialty').value;
+            const photo = document.getElementById('therapist-photo').value;
+            
+            if (!name || !specialty) {
+                alert('Please fill in name and specialty');
+                return;
+            }
+            
+            alert(`Therapist added: ${name} (${specialty})`);
+            // In a real app, you would add this to your database
+        }
+        
+        function saveSettings() {
+            alert('Settings saved');
+            // In a real app, you would save these to your database
+        }
+    </script>
+</body>
+</html>

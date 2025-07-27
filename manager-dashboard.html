@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .dashboard-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .tab.active {
+            border-bottom-color: #3498db;
+            color: #3498db;
+            font-weight: bold;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .appointments-list {
+            margin-top: 20px;
+        }
+        .appointment-card {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .appointment-info h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+        .appointment-info p {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        .appointment-status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .status-confirmed {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .add-appointment-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 15px;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Manager Dashboard</h1>
+        
+        <div class="dashboard-tabs">
+            <div class="tab active" onclick="openTab('appointments')">Today's Appointments</div>
+            <div class="tab" onclick="openTab('availability')">Staff Availability</div>
+            <div class="tab" onclick="openTab('reports')">Sales Reports</div>
+        </div>
+        
+        <div id="appointments" class="tab-content active">
+            <button class="add-appointment-btn" onclick="addAppointment()">+ Add Appointment</button>
+            <div class="appointments-list">
+                <div class="appointment-card">
+                    <div class="appointment-info">
+                        <h3>Swedish Massage with Maria</h3>
+                        <p>Today at 2:00 PM • John Doe (john@example.com)</p>
+                    </div>
+                    <div class="appointment-status status-confirmed">Confirmed</div>
+                </div>
+                <div class="appointment-card">
+                    <div class="appointment-info">
+                        <h3>Deep Tissue with David</h3>
+                        <p>Today at 4:00 PM • Jane Smith (jane@example.com)</p>
+                    </div>
+                    <div class="appointment-status status-pending">Pending Payment</div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="availability" class="tab-content">
+            <h2>Staff Availability</h2>
+            <p>Coming soon...</p>
+        </div>
+        
+        <div id="reports" class="tab-content">
+            <h2>Sales Reports</h2>
+            <p>Coming soon...</p>
+        </div>
+    </div>
+    <script>
+        function openTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.getElementsByClassName('tab-content');
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove('active');
+            }
+            
+            // Remove active class from all tabs
+            const tabs = document.getElementsByClassName('tab');
+            for (let i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+            }
+            
+            // Show the current tab and mark button as active
+            document.getElementById(tabName).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+        
+        function addAppointment() {
+            alert('Add appointment functionality coming soon');
+        }
+    </script>
+</body>
+</html>

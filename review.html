@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Booking</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .header {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #ecf0f1;
+            z-index: 1;
+            transform: translateY(-50%);
+        }
+        .progress-step {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #ecf0f1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        .progress-step.completed {
+            background: #3498db;
+            color: white;
+        }
+        .progress-step.active {
+            background: #3498db;
+            color: white;
+            border: 2px solid #2980b9;
+        }
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        .booking-summary {
+            margin-bottom: 25px;
+        }
+        .summary-card {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .summary-card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .summary-item.total {
+            font-weight: bold;
+            border-bottom: none;
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+        .payment-options {
+            margin-bottom: 25px;
+        }
+        .payment-options h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        .payment-method {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 10px;
+            background: #f9f9f9;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .payment-method:hover {
+            background: #e3f2fd;
+        }
+        .payment-method.active {
+            border-color: #3498db;
+            background: #e3f2fd;
+        }
+        .payment-icon {
+            font-size: 30px;
+            margin-right: 15px;
+            color: #3498db;
+        }
+        .payment-details h4 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        .payment-details p {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        .user-details {
+            margin-bottom: 25px;
+        }
+        .user-details h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        .user-details input {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+        .btn-primary, .btn-secondary {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+        .btn-secondary {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+        }
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+        .btn-secondary:hover {
+            background-color: #bdc3c7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="progress-bar">
+                <div class="progress-step completed" data-step="1"></div>
+                <div class="progress-step completed" data-step="2"></div>
+                <div class="progress-step completed" data-step="3"></div>
+                <div class="progress-step active" data-step="4"></div>
+            </div>
+            <h2>Review Your Booking</h2>
+        </div>
+        
+        <div class="booking-summary">
+            <div class="summary-card">
+                <h3>Booking Details</h3>
+                <div class="summary-item">
+                    <span>Service:</span>
+                    <span id="review-service">Swedish Massage</span>
+                </div>
+                <div class="summary-item">
+                    <span>Therapist:</span>
+                    <span id="review-therapist">Maria</span>
+                </div>
+                <div class="summary-item">
+                    <span>Date & Time:</span>
+                    <span id="review-time">Today at 2:00 PM</span>
+                </div>
+                <div class="summary-item">
+                    <span>Duration:</span>
+                    <span>60 minutes</span>
+                </div>
+                <div class="summary-item total">
+                    <span>Total:</span>
+                    <span>$80</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="payment-options">
+            <h3>Payment Method</h3>
+            <div class="payment-method active" onclick="selectPayment('card')">
+                <div class="payment-icon">💳</div>
+                <div class="payment-details">
+                    <h4>Credit/Debit Card</h4>
+                    <p>Pay securely with Stripe</p>
+                </div>
+            </div>
+            <div class="payment-method" onclick="selectPayment('spa')">
+                <div class="payment-icon">🏠</div>
+                <div class="payment-details">
+                    <h4>Pay at Spa</h4>
+                    <p>Pay when you arrive</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="user-details">
+            <h3>Your Information</h3>
+            <input type="text" placeholder="Full Name" required>
+            <input type="email" placeholder="Email Address" required>
+            <input type="tel" placeholder="Phone Number" required>
+        </div>
+        
+        <div class="nav-buttons">
+            <button class="btn-secondary" onclick="location.href='timeslots.html'">Back</button>
+            <button class="btn-primary" onclick="processBooking()">Confirm & Pay</button>
+        </div>
+    </div>
+    <script>
+        let paymentMethod = 'card';
+        
+        function selectPayment(method) {
+            paymentMethod = method;
+            
+            // Update UI
+            const methods = document.querySelectorAll('.payment-method');
+            methods.forEach(m => {
+                m.classList.remove('active');
+                if (m.getAttribute('onclick').includes(method)) {
+                    m.classList.add('active');
+                }
+            });
+            
+            // Store in session
+            sessionStorage.setItem('paymentMethod', paymentMethod);
+        }
+        
+        function processBooking() {
+            // Get user details
+            const name = document.querySelector('.user-details input[type="text"]').value;
+            const email = document.querySelector('.user-details input[type="email"]').value;
+            const phone = document.querySelector('.user-details input[type="tel"]').value;
+            
+            if (!name || !email || !phone) {
+                alert('Please fill in all your information');
+                return;
+            }
+            
+            // Generate booking ID
+            const bookingId = 'SPA-' + new Date().getFullYear() + '-' + Math.floor(1000 + Math.random() * 9000);
+            
+            // Store booking info
+            sessionStorage.setItem('bookingId', bookingId);
+            sessionStorage.setItem('userName', name);
+            sessionStorage.setItem('userEmail', email);
+            sessionStorage.setItem('userPhone', phone);
+            
+            // Redirect to confirmation
+            location.href = 'confirmation.html';
+        }
+        
+        // Load booking details
+        document.addEventListener('DOMContentLoaded', function() {
+            const service = JSON.parse(sessionStorage.getItem('selectedService'));
+            const therapist = JSON.parse(sessionStorage.getItem('selectedTherapist'));
+            const timeSlot = sessionStorage.getItem('selectedTimeSlot');
+            const storedPayment = sessionStorage.getItem('paymentMethod');
+            
+            if (service) {
+                document.getElementById('review-service').textContent = service.name;
+                document.querySelector('.summary-item.total span:last-child').textContent = '$' + service.price;
+                document.querySelector('.summary-item:nth-child(4) span:last-child').textContent = service.duration + ' minutes';
+            }
+            
+            if (therapist) {
+                document.getElementById('review-therapist').textContent = therapist.name;
+            }
+            
+            if (timeSlot) {
+                document.getElementById('review-time').textContent = 'Today at ' + timeSlot;
+            }
+            
+            if (storedPayment) {
+                selectPayment(storedPayment);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Therapist</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .header {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #ecf0f1;
+            z-index: 1;
+            transform: translateY(-50%);
+        }
+        .progress-step {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #ecf0f1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        .progress-step.completed {
+            background: #3498db;
+            color: white;
+        }
+        .progress-step.active {
+            background: #3498db;
+            color: white;
+            border: 2px solid #2980b9;
+        }
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        #selected-service {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .therapist-list {
+            margin-bottom: 30px;
+        }
+        .therapist-card {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 10px;
+            background: #f9f9f9;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .therapist-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .therapist-card.selected {
+            border-color: #3498db;
+            background: #e3f2fd;
+        }
+        .therapist-card img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+        .therapist-info h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+        .therapist-info p {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+        .rating {
+            color: #f39c12;
+            font-size: 14px;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+        .btn-primary, .btn-secondary {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+        .btn-secondary {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+        }
+        .btn-primary:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+        .btn-primary:hover:not(:disabled) {
+            background-color: #2980b9;
+        }
+        .btn-secondary:hover {
+            background-color: #bdc3c7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="progress-bar">
+                <div class="progress-step completed" data-step="1"></div>
+                <div class="progress-step active" data-step="2"></div>
+                <div class="progress-step" data-step="3"></div>
+                <div class="progress-step" data-step="4"></div>
+            </div>
+            <h2>Select Your Therapist</h2>
+            <p id="selected-service">Swedish Massage • 60 min</p>
+        </div>
+        
+        <div class="therapist-list">
+            <div class="therapist-card" onclick="selectTherapist('Maria', 'Expert in Swedish techniques', 'https://randomuser.me/api/portraits/women/44.jpg')">
+                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Maria">
+                <div class="therapist-info">
+                    <h3>Maria</h3>
+                    <p>Expert in Swedish techniques</p>
+                    <div class="rating">★★★★★</div>
+                </div>
+            </div>
+            <div class="therapist-card" onclick="selectTherapist('David', 'Deep tissue specialist', 'https://randomuser.me/api/portraits/men/32.jpg')">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="David">
+                <div class="therapist-info">
+                    <h3>David</h3>
+                    <p>Deep tissue specialist</p>
+                    <div class="rating">★★★★☆</div>
+                </div>
+            </div>
+            <div class="therapist-card" onclick="selectTherapist('Aisha', 'Moroccan bath expert', 'https://randomuser.me/api/portraits/women/63.jpg')">
+                <img src="https://randomuser.me/api/portraits/women/63.jpg" alt="Aisha">
+                <div class="therapist-info">
+                    <h3>Aisha</h3>
+                    <p>Moroccan bath expert</p>
+                    <div class="rating">★★★★★</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="nav-buttons">
+            <button class="btn-secondary" onclick="location.href='services.html'">Back</button>
+            <button class="btn-primary" id="nextBtn" disabled onclick="location.href='timeslots.html'">Next</button>
+        </div>
+    </div>
+    <script>
+        let selectedTherapist = null;
+        
+        function selectTherapist(name, specialty, photo) {
+            selectedTherapist = { name, specialty, photo };
+            
+            // Update UI
+            const cards = document.querySelectorAll('.therapist-card');
+            cards.forEach(card => {
+                card.classList.remove('selected');
+                if (card.querySelector('h3').textContent === name) {
+                    card.classList.add('selected');
+                }
+            });
+            
+            // Enable next button
+            document.getElementById('nextBtn').disabled = false;
+            
+            // Store in session
+            sessionStorage.setItem('selectedTherapist', JSON.stringify(selectedTherapist));
+            
+            // Update service info from previous page
+            const service = JSON.parse(sessionStorage.getItem('selectedService'));
+            document.getElementById('selected-service').textContent = 
+                `${service.name} • ${service.duration} min`;
+        }
+        
+        // Check if coming back from next page
+        document.addEventListener('DOMContentLoaded', function() {
+            const storedTherapist = sessionStorage.getItem('selectedTherapist');
+            if (storedTherapist) {
+                selectedTherapist = JSON.parse(storedTherapist);
+                const cards = document.querySelectorAll('.therapist-card');
+                cards.forEach(card => {
+                    if (card.querySelector('h3').textContent === selectedTherapist.name) {
+                        card.classList.add('selected');
+                        document.getElementById('nextBtn').disabled = false;
+                    }
+                });
+            }
+            
+            // Update service info
+            const service = JSON.parse(sessionStorage.getItem('selectedService'));
+            if (service) {
+                document.getElementById('selected-service').textContent = 
+                    `${service.name} • ${service.duration} min`;
+            }
+        });
+    </script>
+</body>
+</html>
